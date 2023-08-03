@@ -62,7 +62,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> str:
+def get_db():
     """ function to return the connector of the database"""
     username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
     host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
