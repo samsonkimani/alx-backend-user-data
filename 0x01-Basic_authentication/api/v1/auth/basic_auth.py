@@ -49,7 +49,7 @@ class BasicAuth(Auth):
             return None, None
         if ':' not in decoded_base64_authorization_header:
             return None, None
-        credentials = decoded_base64_authorization_header.split(":")
+        credentials = decoded_base64_authorization_header.rsplit(":", 1)
         if credentials:
             return tuple(credentials)
         else:
@@ -74,3 +74,16 @@ class BasicAuth(Auth):
             return None
         except Exception:
             return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """ get the current user"""
+        Auth = self.authorization_header(request)
+        if Auth:
+            token = self.extract_base64_authorization_header(Auth)
+            if token:
+                get_username_and_password = decode_base64_authorization_header(
+                    token)
+                if get_username_and_password:
+                    arg1 = get_username_and_password[0]
+                    arg2 = get_username_and_password[1]
+                    credentials = extract_user_credentials(arg1, arg2)
