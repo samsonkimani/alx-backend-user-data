@@ -4,6 +4,7 @@ from flask import request
 from typing import List, TypeVar
 from models.user import User
 
+
 class Auth:
     """ class auth for authenticating users"""
 
@@ -40,4 +41,3 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):
         """ return current user else None"""
         return None
-
