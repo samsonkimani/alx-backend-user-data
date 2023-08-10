@@ -15,7 +15,7 @@ class SessionExpAuth(SessionAuth):
         except ValueError:
             self.session_duration = 0
 
-    def create_session(self, user_id=None):
+    def create_session(self, user_id: str = None) -> str:
         """ overloaded create session function"""
         session_id = super().create_session(user_id)
         if session_id is None:
@@ -28,7 +28,7 @@ class SessionExpAuth(SessionAuth):
         self.user_id_by_session_id[session_id] = session_dict
         return session_id
 
-    def user_id_for_session_id(self, session_id=None):
+    def user_id_for_session_id(self, session_id: str = None) -> str:
         """ get user id from session id"""
         if session_id is None:
             return None
