@@ -26,7 +26,7 @@ class SessionDBAuth(SessionExpAuth):
             user_session.save()
             return session_id
 
-    def user_id_for_session_id(self, session_id=None):
+    def user_id_for_session_id(self, session_id=None) -> str:
         """Retrieves the user id of the user associated with
         a given session id.
         """
