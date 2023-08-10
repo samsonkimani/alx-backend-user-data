@@ -5,8 +5,10 @@ from datetime import datetime, timedelta
 from api.v1.auth.session_auth import SessionAuth
 import os
 
+
 class SessionExpAuth(SessionAuth):
     """ session expiration auth"""
+
     def __init__(self) -> None:
         """ init function"""
         super().__init__()
