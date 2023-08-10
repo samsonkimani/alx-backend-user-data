@@ -40,6 +40,7 @@ def login_authentication():
                  methods=['DELETE'],
                  strict_slashes=False)
 def logout():
+    """ logging out a user"""
     from api.v1.app import auth
     if not auth.destroy_session(request):
         abort(404)
