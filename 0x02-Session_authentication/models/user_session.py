@@ -3,6 +3,7 @@
 
 from models.base import Base
 
+
 class UserSession(Base):
     """ store user sessions in db"""
 
