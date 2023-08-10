@@ -7,7 +7,7 @@ import os
 
 class SessionExpAuth(SessionAuth):
     """ session expiration auth"""
-    def __init__(self):
+    def __init__(self) -> None:
         """ init function"""
         super().__init__()
         session_duration = os.environ.get('SESSION_DURATION', 0)
