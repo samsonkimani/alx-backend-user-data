@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.exc import SQLAlchemyError
 from user import User
 from user import Base
 from typing import TypeVar
@@ -44,14 +45,27 @@ class DB:
 
     def find_user_by(self, **kwargs):
         """ return user by filter value"""
+        # try:
+        #     user = self._session.query(User).filter_by(**kwargs).first()
+        #     if user is None:
+        #         raise NoResultFound("No results found")
+        #     return user
+        # except InvalidRequestError:
+        #     raise InvalidRequestError("not a valid request")
+        # return
+
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
             if user is None:
                 raise NoResultFound("No results found")
             return user
+        except NoResultFound:
+            raise NoResultFound("No results found")
         except InvalidRequestError:
             raise InvalidRequestError("not a valid request")
-        return
+
+
+
     def update_user(self, user_id, **kwargs):
         """ a function to update the user"""
         try:
