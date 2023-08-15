@@ -55,11 +55,12 @@ class DB:
     def update_user(self, user_id, **kwargs):
         """ a function to update the user"""
         try:
-            user = self.find_user_by(user_id)
-            if user is not None:
-                for k, v in kwargs.items():
-                    user.k = v
-                self._session.commit()
-            return None
-        except ValueError:
-            return
+            user = self.find_user_by(id=user_id)
+            for k, v in kwargs.items():
+                if hasattr(user, k):
+                    setattr(user, k, v)
+                else:
+                    raise ValueError("Such attributes do not exist")
+            self._session.commit()
+        except NoResultFound:
+            raise NoResultFound("results not found")
