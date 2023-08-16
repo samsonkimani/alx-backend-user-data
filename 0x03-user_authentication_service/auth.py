@@ -5,6 +5,7 @@ import bcrypt
 from db import DB
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import SQLAlchemyError
+from uuid import uuid4
 
 def _hash_password(password):
     """ function to hash a password"""
@@ -55,3 +56,9 @@ class Auth:
                 return False
         except NoResultFound:
             return False
+    
+    def _generate_uuid():
+        """ a function to generate uuid"""
+        _uuid = uuid4()
+        return _uuid
+
