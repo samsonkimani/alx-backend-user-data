@@ -45,15 +45,7 @@ class DB:
 
     def find_user_by(self, **kwargs):
         """ return user by filter value"""
-        # try:
-        #     user = self._session.query(User).filter_by(**kwargs).first()
-        #     if user is None:
-        #         raise NoResultFound("No results found")
-        #     return user
-        # except InvalidRequestError:
-        #     raise InvalidRequestError("not a valid request")
-        # return
-
+       
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
             if user is None:
