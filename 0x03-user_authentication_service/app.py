@@ -78,5 +78,24 @@ def get_profile():
     except NoResultFound:
         return None
 
+@app.route("/reset_password", methods=["PUT"], strict_slashes=False)
+def update_password():
+    """ function to update the password"""
+    try:
+        email = request.form.get('email')
+        reset_token = request.form.get('reset_token')
+        new_password = request.form.get('new_password')
+
+        user = AUTH.find_user_by(email=email)
+        if user:
+            if user.reset_token == reset_token:
+                AUTH.update_password(reset_token, new_password)
+                return jsonify({"email": user.email, "message": "Password updated"})
+    except ValueError:
+        return None
+    except NoResultFound:
+        return None
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
