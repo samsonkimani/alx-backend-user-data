@@ -40,12 +40,11 @@ class DB:
             self._session.add(user)
             self._session.commit()
             return user
-        except:
+        except NoResultFound:
             return None
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs: dict[str, str]) -> TypeVar['User']:
         """ return user by filter value"""
-       
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
             if user is None:
@@ -56,9 +55,7 @@ class DB:
         except InvalidRequestError:
             raise InvalidRequestError("not a valid request")
 
-
-
-    def update_user(self, user_id, **kwargs):
+    def update_user(self, user_id: str, **kwargs: dict[str, str]) -> None:
         """ a function to update the user"""
         try:
             user = self.find_user_by(id=user_id)
