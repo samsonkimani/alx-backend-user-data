@@ -18,11 +18,6 @@ def _hash_password(password: str) -> str:
     return bcrypt.hashpw(_bytes, salt)
 
 
-def _generate_uuid(self) -> str:
-    """ a function to generate uuid"""
-    return str(uuid4())
-
-
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -64,12 +59,17 @@ class Auth:
         except NoResultFound:
             return False
 
+    def _generate_uuid(self) -> str:
+        """ a function to generate uuid"""
+        _uuid = uuid4()
+        return str(_uuid)
+
     def create_session(self, email: str) -> str:
         """ creating a session"""
         try:
             user = self._db.find_user_by(email=email)
             if user:
-                session_id = _generate_uuid()
+                session_id = self._generate_uuid()
                 self._db.update_user(user.id, session_id=session_id)
                 return session_id
         except NoResultFound:
@@ -93,7 +93,7 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
             if user:
-                token = ._generate_uuid()
+                token = self._generate_uuid()
                 self._db.update_user(user.id, reset_token=token)
                 return token
             raise ValueError("no such values were found")
