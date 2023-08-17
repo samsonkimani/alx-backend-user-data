@@ -36,11 +36,19 @@ class DB:
     def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
         """ method to add a user to a database"""
 
-        user = User(email=email, hashed_password=hashed_password)
-        if user:
-            self._session.add(user)
+        new_user = User(
+            email=email,
+            hashed_password=hashed_password,
+            session_id='',
+            reset_token='')
+        self._session.add(new_user)
+
+        try:
             self._session.commit()
-            return user
+            return new_user
+        except SQLAlchemyError as e:
+            self._session.rollback()
+            raise e
 
     def find_user_by(self, **kwargs: Mapping) -> User:
         """ return user by filter value"""
