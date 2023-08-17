@@ -9,7 +9,7 @@ from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.exc import SQLAlchemyError
 from user import User
 from user import Base
-from typing import TypeVar
+from typing import Mapping, TypeVar
 
 
 class DB:
@@ -35,15 +35,14 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
         """ method to add a user to a database"""
-        try:
-            user = User(email=email, hashed_password=hashed_password)
+
+        user = User(email=email, hashed_password=hashed_password)
+        if user:
             self._session.add(user)
             self._session.commit()
             return user
-        except NoResultFound:
-            return None
 
-    def find_user_by(self, **kwargs: dict[str, str]) -> TypeVar['User']:
+    def find_user_by(self, **kwargs: Mapping) -> User:
         """ return user by filter value"""
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
