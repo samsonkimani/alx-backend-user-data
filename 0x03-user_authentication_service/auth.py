@@ -61,8 +61,7 @@ class Auth:
 
     def _generate_uuid(self) -> str:
         """ a function to generate uuid"""
-        _uuid = uuid4()
-        return str(_uuid)
+        return str(uuid4())
 
     def create_session(self, email: str) -> str:
         """ creating a session"""
