@@ -9,7 +9,8 @@ app = Flask(__name__)
 
 AUTH = Auth()
 
-def get_reset_password_token():
+
+def get_reset_password_token() -> str:
     """ a function to get the reset password token"""
     try:
         email = request.form.get("email")
@@ -23,12 +24,13 @@ def get_reset_password_token():
 
 
 @app.route("/", methods=["GET"], strict_slashes=False)
-def home():
+def home() -> str:
     """ route to home page"""
     return jsonify({"message": "Bienvenue"})
 
+
 @app.route("/users", methods=["POST"], strict_slashes=False)
-def creating_user():
+def creating_user() -> str:
     """ function to create a user"""
     try:
         email = request.form.get("email")
@@ -39,8 +41,9 @@ def creating_user():
     except ValueError:
         return jsonify({"message": "email already registered"})
 
+
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
-def login():
+def login() -> str:
     """ method to login a user"""
     email = request.form.get("email")
     password = request.form.get("password")
@@ -54,8 +57,9 @@ def login():
             response.set_cookie('session_id', session_id)
             return response
 
+
 @app.route("/sessions", methods=["DELETE"], strict_slashes=False)
-def logout():
+def logout() -> str:
     """ logout a user"""
     try:
         session_id = request.cookie.get("session_id")
@@ -66,8 +70,9 @@ def logout():
     except NoResultFound:
         abort(403)
 
+
 @app.route("/profile", methods=["GET"], strict_slashes=False)
-def get_profile():
+def get_profile() -> str:
     """ return the user based on session id"""
     try:
         session_id = request.cookies.get("session_id")
@@ -78,8 +83,9 @@ def get_profile():
     except NoResultFound:
         return None
 
+
 @app.route("/reset_password", methods=["PUT"], strict_slashes=False)
-def update_password():
+def update_password() -> str:
     """ function to update the password"""
     try:
         email = request.form.get('email')
@@ -90,7 +96,8 @@ def update_password():
         if user:
             if user.reset_token == reset_token:
                 AUTH.update_password(reset_token, new_password)
-                return jsonify({"email": user.email, "message": "Password updated"})
+                return jsonify(
+                    {"email": user.email, "message": "Password updated"})
     except ValueError:
         return None
     except NoResultFound:
